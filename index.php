@@ -15,11 +15,14 @@ echo '<!doctype html>
     <title>Calculate Luhn From NPI</title>
   </head>
   <body>
-    <h1>Enter your 10 digit NPI number</h1>
+<main role="main" class="container">
+<br><br><br>
 
+    <h1>Enter your 10 digit NPI number</h1>
+<p> You can try 1992901391 if you have nothing else... <p>
 <form action="process_luhn.php">
   <div class="form-group row">
-    <label for="npi" class="col-4 col-form-label">Text Field</label> 
+    <label for="npi" class="col-4 col-form-label">NPI Candidate</label> 
     <div class="col-8">
       <input id="npi" name="npi" type="text" class="form-control">
     </div>
@@ -30,7 +33,7 @@ echo '<!doctype html>
     </div>
   </div>
 </form>
-
+</main>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

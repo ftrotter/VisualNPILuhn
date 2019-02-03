@@ -34,6 +34,8 @@ $html = '<!doctype html>
 <main role="main" class="container">
 
   <div class="starter-template">
+<br><br>
+
     <h1>NPI Luhn Calculation for '.$npi.'</h1>
 ';
 
@@ -44,7 +46,7 @@ $html = '<!doctype html>
 <tr>
 <th colspan='5'> NCITS card prefix</th>
 <th colspan='9'> NPI Sequence </th>
-<th> Check Digit </th>
+<th> Digit Sum </th>
 </tr>
 </thead>
 <tbody>
@@ -71,7 +73,7 @@ $html = '<!doctype html>
 	foreach($npi_array as $i => $this_digit){
 		if($i%2){ //then this is an even digit...
 			$real_digit = $this_digit * 2;
-			$class = "class='table-success'";
+			$class = "class='table-primary'";
 		}else{
 			$real_digit = $this_digit;
 			$class = "";
@@ -140,26 +142,46 @@ $html = '<!doctype html>
 	$mod_result = $mult_result % 10;
 	
 	if($input_check_digit == $mod_result){
-		$result = "Luhn Number Pass. check digit passed in was $input_check_digit final result was $mod_result. This could be a valid NPI";
+		$result = "Luhn Number Pass. check digit passed in was $input_check_digit final calculated result was $mod_result. <u>This could be a valid NPI</u>";
+		$result_class = 'list-group-item-success';
 	}else{
-		$result = "Luhn Number Fail. check digit was $input_check_digit and result was $mod_result. Not a valid NPI.";
+		$result = "Luhn Number Fail. check digit passed in was $input_check_digit and the calculated result was $mod_result. <u>Not a valid NPI.</u>";
+		$result_class = 'list-group-item-danger';
+
 	}
 
 
 echo "
 <ul class='list-group'>
   <li class='list-group-item'>Step 0: Append the NCITS code to the first 9 digits of the NPI candidate. </li> 
-  <li class='list-group-item list-group-item-success'>Step 1: multiple every even cell (starting from the right) by two </li>
+  <li class='list-group-item list-group-item-primary'>Step 1: multiple every even cell (starting from the right) by two </li>
   <li class='list-group-item list-group-item-warning'>Step 2: for results greater then ten, add the two digits so 18 becomes 1+8 = 9 </li>
   <li class='list-group-item'>Step 3: Add up all of the numbers</li>
-  <li class='list-group-item'>Step 4: Multiple this number by nine. Here: $running_total x 9 = $mult_result</li>
-  <li class='list-group-item'>Step 5: Take this result, and apply modulus 10. $mult_result modulus 10 = <b>$mod_result<b></li>
-  <li class='list-group-item'>Result $result</li>
+  <li class='list-group-item'>Step 4: Multiple this number by nine. Here: $running_total x 9 = <u>$mult_result</u></li>
+  <li class='list-group-item'>Step 5: Take this result, and take the remainder digit (i.e. modulus). $mult_result modulus 10 = <u>$mod_result</u></li>
+  <li class='list-group-item $result_class'>Result $result</li>
 </ul>
 ";	
 
 
 $html_end = '
+<br><br>
+<h5> Try again.. </h5>
+<form action="process_luhn.php">
+  <div class="form-group row">
+    <label for="npi" class="col-4 col-form-label">NPI Candidate</label>
+    <div class="col-8">
+      <input id="npi" name="npi" type="text" value="'.$npi.'" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="offset-4 col-8">
+      <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+
+
   </div>
 </main>
     <!-- Optional JavaScript -->
